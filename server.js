@@ -18,6 +18,8 @@ app.get("/about", function(req,res){
     res.sendFile(path.join(__dirname, "/views/about.html"));
 });
 
+
+
 app.get("/employees", function(req,res){
     data.getAllEmployees()
         .then((data) => {
@@ -54,6 +56,9 @@ app.get("/departments", function(req,res){
         })
 });
 
+app.use(function (req, res) {
+    res.status(404).sendFile(path.join(__dirname,"/views/error404.html"));
+})
 console.log ("Ready for initialization");
 data.initialize()
     .then(() => {
