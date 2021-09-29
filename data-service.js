@@ -10,21 +10,21 @@ module.exports.initialize = function () {
             fs.readFile('./data/employees.json', (err, data) => {
                 if (err) throw err;
                 employeesArray = JSON.parse(data);
-                console.log("employees - initialized");
+                console.log("Employees has been initialized");
             })
 
             fs.readFile('./data/departments.json', (err, data) => {
                 if (err) throw err;
                 departmentsArray = JSON.parse(data);
-                console.log("departments - initialized");
+                console.log("Departments has been initialized");
             })
 
         } catch (ex) {
-            console.log("failed to initialize");
-            reject("failed to initialize");
+            console.log("Initialization failed");
+            reject("Initialization failed");
         }
-        console.log("initialized - successful");
-        resolve("initialized - successful");
+        console.log("Successfully initalized");
+        resolve("Successfully initalized");
     })
 
     return promise;
