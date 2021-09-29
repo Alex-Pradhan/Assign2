@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+var path = require("path");
 
 var HTTP_PORT = process.env.PORT || 8080;
 
@@ -10,12 +11,12 @@ function onHttpStart() {
 
 
 app.get("/", function(req,res){
-    res.sendFile(path.join(__dirname, "/views/home.html"));
+    res.sendFile(path.join(directoryname, "/views/home.html"));
 });
 
 
 app.get("/about", function(req,res){
-    res.sendFile(path.join(__dirname, "/views/about.html"));
+    res.sendFile(path.join(directoryname, "/views/about.html"));
 });
 
 
