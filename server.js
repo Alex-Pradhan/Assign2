@@ -10,12 +10,12 @@ function onHttpStart() {
 
 
 app.get("/", function(req,res){
-    res.sendFile(path.join(directoryname, "/views/home.html"));
+    res.sendFile(path.join(__dirname, "/views/home.html"));
 });
 
 
 app.get("/about", function(req,res){
-    res.sendFile(path.join(directoryname, "/views/about.html"));
+    res.sendFile(path.join(__dirname, "/views/about.html"));
 });
 
 
