@@ -1,15 +1,14 @@
-
 /*********************************************************************************
 * WEB322 – Assignment 02
-* I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part 
-* of this assignment has been copied manually or electronically from any other source 
+* I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
+* of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
-* 
-* Name: Jason Alferez Student ID: 110014206 Date: Sept 30, 2021
 *
-* Online (Heroku) Link: https://powerful-tor-56951.herokuapp.com/
+* Name: Amogh Pradhan Student ID: 143542199 Date: October 1st 2021
 *
-********************************************************************************/
+* Online (Heroku) Link: ________________________________________________________
+*
+********************************************************************************/ 
 
 
 var express = require("express");
