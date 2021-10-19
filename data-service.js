@@ -76,3 +76,142 @@ module.exports.getDepartments = function () {
      })
      return promise;
 };
+
+
+
+module.exports.addEmployee = function (employeeData) {
+    var promise = new Promise((resolve, reject) => {
+       if (employeeData.isManager === "undefined") {
+            employeeData.isManager = false;
+
+       } else {
+
+            employeeData.isManager = true;
+
+       }
+
+       if(employeesArr.length === 0){
+
+           var err = "function getAllEmployees() has no data";
+           reject({message: err});
+
+       }else{
+
+           employeeData.employeeNum = employeesArr.length + 1;
+           employeesArr.push(employeeData);
+
+       }        
+
+       resolve (employeesArr);
+    })
+    return promise;
+
+};
+
+
+module.exports.getEmployeesByStatus = function (status) {
+    var employeesArrStatus = [];
+    var promise = new Promise((resolve, reject) => {
+
+        for (var i=0; i < employeesArr.length; i++){
+
+            if (employeesArr[i].status.toLowerCase() == status.toLowerCase()) {
+                employeesArrStatus.push(employeesArr[i]);
+
+            }
+
+        }
+
+        if(employeesArrStatus === 0) {
+
+            var err = "NO RESULTS";
+            reject({message: err});
+
+        }  
+
+        resolve (employeesArrStatus);
+    })
+
+    return promise;
+};
+
+
+
+module.exports.getEmployeesByDepartment = function (department) {
+    var employeesArrDepartment = [];
+    var promise = new Promise((resolve, reject) => {
+
+        for (var i=0; i < employeesArr.length; i++){
+
+            if (employeesArr[i].department == department) {
+                employeesArrDepartment.push(employeesArr[i]);
+
+            }
+
+        }
+
+        if (employeesArrDepartment === 0) {
+
+            var err = "NO RESULTS";
+            reject({message: err});
+
+        }  
+
+        resolve (employeesArrDepartment);
+    })
+    return promise;
+};
+
+
+
+module.exports.getEmployeesByManager = function (manager) {
+    var employeesArrManager = [];
+    var promise = new Promise((resolve, reject) => {
+
+        for (var i=0; i < employeesArr.length; i++){
+
+            if (employeesArr[i].employeeManagerNum == manager) {
+
+                employeesArrManager.push(employeesArr[i]);
+            }
+        }
+
+        if (employeesArrManager === 0) {
+
+            var err = "NO RESULTS";
+            reject({message: err});
+
+        }  
+
+        resolve (employeesArrManager);
+    })
+
+    return promise;
+};
+
+module.exports.getEmployeeByNum = function (num) {
+    var employeesArrNum;
+    var promise = new Promise((resolve, reject) => {
+
+        for (var i=0; i < employeesArr.length; i++){
+
+            if (employeesArr[i].employeeNum == num) {
+
+                employeesArrNum = employeesArr[i];
+                i = employeesArr.length;
+
+            }
+        }
+
+        if(employeesArrNum === "undefined") {
+
+            var err = "NO RESULTS";
+            reject({message: err});
+
+        }  
+
+        resolve (employeesArrNum);
+    })
+    
+    return promise;
+};

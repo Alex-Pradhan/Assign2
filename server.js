@@ -12,9 +12,16 @@
 
 
 var express = require("express");
-var app = express();
 var path = require("path");
 var data = require("./data-service.js");
+const multer = require("multer");
+const fs = require("fs");
+
+var app = express();
+app.use(express.static('public'));
+app.use(express.urlencoded({extended : true}));
+
+
 
 var HTTP_PORT = process.env.PORT || 8080;
 function onHttpStart() {
@@ -31,19 +38,75 @@ app.get("/about", function(req,res){
     res.sendFile(path.join(__dirname, "/views/about.html"));
 });
 
+app.get("/employees/add", function(req,res){
+    res.sendFile(path.join(__dirname, "/views/addEmployee.html"));
+});
+
+app.get("/images/add", function(req,res){
+    res.sendFile(path.join(__dirname, "/views/addImage.html"));
+});
+
+app.get("/employee/:value", function (req, res) {
+    data.getEmployeeByNum(req.params.value)
+    .then((data) => {
+        console.log ("calling getEmployeeByNum");
+      res.json(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json(err);
+    })
+});
+
 
 
 app.get("/employees", function(req,res){
-    data.getAllEmployees()
-        .then((data) => {
-            console.log ("getting AllEmployees");
+    if(req.query.status) {
+        data.getEmployeesByStatus(req.query.status)
+            .then((data) => {
+                console.log ("calling getEmployeesByStatus()");
+                res.json(data);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.json(err);
+            })
+
+    }else if(req.query.department) {
+        data.getEmployeesByDepartment(req.query.department)
+            .then((data) => {
+                console.log ("calling getEmployeesByDepartment()");
+                res.json(data);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.json(err);
+            })
+
+    }else if(req.query.manager) {
+        data.getEmployeesByManager(req.query.manager)
+            .then((data) => {
+                console.log ("calling getEmployeesByManager()");
+                res.json(data);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.json(err);
+            })
+    }else {
+
+        data.getAllEmployees()
+            .then((data) => {
+            console.log ("calling getAllEmployees()");
             res.json(data);
         })
-        .catch((err) => {
+            .catch((err) => {
             console.log(err);
             res.json(err);
         })
+    }
 });
+
 
 app.get("/managers", function(req,res){
     data.getManagers()
@@ -81,4 +144,39 @@ data.initialize()
     .catch(err => {
         console.log(err);
     })
+
+
+
+const storage = multer.diskStorage({
+
+    destination: "./public/images/uploaded",
+    filename: function(req, file, cb){
+        cb(null, Date.now()+path.extname(file.originalname));
+    }
+});
+const upload = multer({storage:storage});
+
+
+app.post("/images/add", upload.single("imageFile"), (req, res) => {
+
+    res.redirect("/images");
+});
+
+
+app.get("/images",  function(req, res){  
+
+    fs.readdir("./public/images/uploaded", function(err, items){
+        res.json( {"images": items});
+
+    });
+});
+
+
+
+app.post("/employees/add", function(req,res){
+    data.addEmployee(req.body)
+    .then(() => {
+      res.redirect("/employees");
+    });
+});
 
